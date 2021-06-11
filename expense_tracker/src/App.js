@@ -28,18 +28,21 @@ function App() {
 			date: new Date(2021, 5, 12),
 		},
 	];
-	const [expenses, setExpenses] = useState(initialExpenses);
 
+	const [expenses, setExpenses] = useState(initialExpenses);
 	const saveNewExpense = (newData) => {
+		console.log(newData);
 		setExpenses((prevData) => {
 			newData["id"] = Math.random();
-			newData["date"] = new Date(newData["date"]);
+			const newDate = new Date(newData["date"]);
+			newData["date"] = new Date(
+				newDate.getTime() + newDate.getTimezoneOffset() * 60000
+			);
 			return [...prevData, newData];
 		});
 	};
 	return (
 		<div className="App">
-			<p>hello world</p>
 			<NewExpense saveNewExpense={saveNewExpense} />
 			<Expense expenses={expenses} />
 		</div>
